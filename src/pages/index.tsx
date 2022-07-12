@@ -1,9 +1,9 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import { gql } from '@apollo/client';
+import { gql } from '@apollo/client'
 import { GetStaticProps } from 'next'
 
-import { getApolloClient } from '@/lib/apollo-client';
+import { getApolloClient } from '@/lib/apollo-client'
 import { PageProps, PostProps } from "@/types"
 
 interface HomeProps {
