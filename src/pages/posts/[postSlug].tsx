@@ -1,32 +1,42 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import { gql } from '@apollo/client';
+import { gql } from '@apollo/client'
+import { GetStaticProps, GetStaticPaths } from 'next'
+import { ParsedUrlQuery } from 'querystring'
 
-import { getApolloClient } from 'lib/apollo-client';
+import { getApolloClient } from '@/lib/apollo-client'
+import { PageProps, PostProps } from "@/types"
 
-import styles from '../../styles/Home.module.css'
+interface PostDetailsProps {
+  page: PageProps;
+  post: PostProps;
+}
 
-export default function Post({ post, site }) {
+interface IParams extends ParsedUrlQuery {
+  postSlug: string
+}
+
+export default function PostDetails({ post, page } : PostDetailsProps) {
   return (
-    <div className={styles.container}>
+    <div className="">
       <Head>
         <title>{ post.title }</title>
-        <meta name="description" content={`Read more about ${post.title} on ${site.title}`} />
+        <meta name="description" content={`Read more about ${post.title} on ${page.title}`} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
+      <main className="">
+        <h1 className="">
           { post.title }
         </h1>
 
-        <div className={styles.grid}>
-          <div className={styles.content} dangerouslySetInnerHTML={{
+        <div className="">
+          <div className="" dangerouslySetInnerHTML={{
             __html: post.content
           }} />
         </div>
 
-        <p className={styles.backToHome}>
+        <p className="">
           <Link href="/">
             <a>
               &lt; Back to home
@@ -38,8 +48,8 @@ export default function Post({ post, site }) {
   )
 }
 
-export async function getStaticProps({ params = {} } = {}) {
-  const { postSlug } = params;
+export const getStaticProps: GetStaticProps = async (context) => {
+  const { postSlug } = context.params as IParams;
 
   const apolloClient = getApolloClient();
 
@@ -64,19 +74,19 @@ export async function getStaticProps({ params = {} } = {}) {
 
   const post = data?.data.postBy;
 
-  const site = {
+  const page = {
     ...data?.data.generalSettings
   }
 
   return {
     props: {
       post,
-      site
+      page
     }
   }
 }
 
-export async function getStaticPaths() {
+export const getStaticPaths: GetStaticPaths = async () => {
   const apolloClient = getApolloClient();
 
   const data = await apolloClient.query({
@@ -95,10 +105,10 @@ export async function getStaticPaths() {
     `,
   });
 
-  const posts = data?.data.posts.edges.map(({ node }) => node);
+  const posts = data?.data.posts.edges.map(({ node } : any) => node);
 
   return {
-    paths: posts.map(({ slug }) => {
+    paths: posts.map(({ slug } : any) => {
       return {
         params: {
           postSlug: slug

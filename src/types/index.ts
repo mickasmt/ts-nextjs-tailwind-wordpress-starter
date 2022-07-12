@@ -8,6 +8,7 @@ type PostProps = {
   slug: string;
   path: string;
   excerpt: string;
+  content: string;
 }
 
 export type {
