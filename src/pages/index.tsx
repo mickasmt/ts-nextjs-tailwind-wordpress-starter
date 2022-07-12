@@ -2,29 +2,28 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { gql } from '@apollo/client';
 
-import { getApolloClient } from 'lib/apollo-client';
-
-import styles from '../styles/Home.module.css'
+import { getApolloClient } from '@/lib/apollo-client';
 
 export default function Home({ page, posts }) {
   const { title, description } = page;
+  
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Head>
         <title>{title}</title>
         <meta name="description" content={description} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>{title}</h1>
+      <main className="main">
+        <h1 className="title">{title}</h1>
 
-        <p className={styles.description}>{ description }</p>
+        <p className="description">{ description }</p>
 
-        <ul className={styles.grid}>
+        <ul className="grid">
           {posts && posts.length > 0 && posts.map(post => {
             return (
-              <li key={post.slug} className={styles.card}>
+              <li key={post.slug} className="card">
                 <Link href={post.path}>
                   <a>
                     <h3 dangerouslySetInnerHTML={{

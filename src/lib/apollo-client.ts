@@ -1,6 +1,6 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
 
-let client;
+let client: any;
 
 /**
  * getApolloClient
