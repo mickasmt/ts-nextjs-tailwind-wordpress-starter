@@ -1,12 +1,19 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import { gql } from '@apollo/client';
+import { GetStaticProps } from 'next'
 
 import { getApolloClient } from '@/lib/apollo-client';
+import { PageProps, PostProps } from "@/types"
 
-export default function Home({ page, posts }) {
+interface HomeProps {
+  page: PageProps;
+  posts: PostProps[];
+}
+
+export default function Home({ page, posts } : HomeProps) {
   const { title, description } = page;
-  
+
   return (
     <div className="container">
       <Head>
@@ -51,7 +58,8 @@ export default function Home({ page, posts }) {
   )
 }
 
-export async function getStaticProps() {
+
+export const getStaticProps: GetStaticProps = async () => {
   const apolloClient = getApolloClient();
 
   const data = await apolloClient.query({
@@ -75,7 +83,7 @@ export async function getStaticProps() {
     `,
   });
 
-  const posts = data?.data.posts.edges.map(({ node }) => node).map(post => {
+  const posts = data?.data.posts.edges.map(({ node }: any) => node).map((post : PostProps) => {
     return {
       ...post,
       path: `/posts/${post.slug}`
