@@ -13,7 +13,7 @@ interface PostDetailsProps {
 }
 
 interface IParams extends ParsedUrlQuery {
-  postSlug: string;
+  slug: string;
 }
 
 export default function PostDetails({ post, page }: PostDetailsProps) {
@@ -61,7 +61,7 @@ export default function PostDetails({ post, page }: PostDetailsProps) {
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const { postSlug } = context.params as IParams;
+  const { slug } = context.params as IParams;
 
   const apolloClient = getApolloClient();
 
@@ -80,7 +80,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       }
     `,
     variables: {
-      slug: postSlug,
+      slug: slug,
     },
   });
 
@@ -124,7 +124,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     paths: posts.map(({ slug }: any) => {
       return {
         params: {
-          postSlug: slug,
+          slug: slug,
         },
       };
     }),
