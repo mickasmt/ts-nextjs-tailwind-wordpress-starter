@@ -1,15 +1,11 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.f-container {
+  @apply container max-w-screen-md mx-auto;
 }
 
-a {
-  text-decoration: none;
-}
-
-* {
-  box-sizing: border-box;
+.card {
+  @apply block p-4 space-y-2 border border-gray-300 rounded-xl overflow-hidden;
 }

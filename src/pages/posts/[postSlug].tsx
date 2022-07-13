@@ -1,11 +1,11 @@
-import Head from 'next/head'
-import Link from 'next/link'
-import { gql } from '@apollo/client'
-import { GetStaticProps, GetStaticPaths } from 'next'
-import { ParsedUrlQuery } from 'querystring'
+import Head from "next/head";
+import Link from "next/link";
+import { gql } from "@apollo/client";
+import { GetStaticProps, GetStaticPaths } from "next";
+import { ParsedUrlQuery } from "querystring";
 
-import { getApolloClient } from '@/lib/apollo-client'
-import { PageProps, PostProps } from "@/types"
+import { getApolloClient } from "@/lib/apollo-client";
+import { PageProps, PostProps } from "@/types";
 
 interface PostDetailsProps {
   page: PageProps;
@@ -13,39 +13,51 @@ interface PostDetailsProps {
 }
 
 interface IParams extends ParsedUrlQuery {
-  postSlug: string
+  postSlug: string;
 }
 
-export default function PostDetails({ post, page } : PostDetailsProps) {
+export default function PostDetails({ post, page }: PostDetailsProps) {
   return (
-    <div className="">
+    <div className="py-10">
       <Head>
-        <title>{ post.title }</title>
-        <meta name="description" content={`Read more about ${post.title} on ${page.title}`} />
+        <title>{post.title}</title>
+        <meta
+          name="description"
+          content={`Read more about ${post.title} on ${page.title}`}
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="">
-        <h1 className="">
-          { post.title }
-        </h1>
-
-        <div className="">
-          <div className="" dangerouslySetInnerHTML={{
-            __html: post.content
-          }} />
-        </div>
-
-        <p className="">
+      <main className="f-container">
+        <p className="pb-6">
           <Link href="/">
-            <a>
-              &lt; Back to home
-            </a>
+            <a>&lt; Back to home</a>
           </Link>
         </p>
+
+        <h1 className="text-lg font-semibold pb-5">Title of the page : {post.title}</h1>
+
+        <div
+          className="prose max-w-none"
+          dangerouslySetInnerHTML={{
+            __html: post.content,
+          }}
+        />
       </main>
+
+      <footer className="w-full mt-8 text-lg text-center text-gray-700">
+        © 2022 By{" "}
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://github.com/mickasmt"
+          className="font-semibold border-b border-dotted border-black/50 hover:border-black/100"
+        >
+          Mickasmt
+        </a>
+      </footer>
     </div>
-  )
+  );
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
@@ -68,23 +80,23 @@ export const getStaticProps: GetStaticProps = async (context) => {
       }
     `,
     variables: {
-      slug: postSlug
-    }
+      slug: postSlug,
+    },
   });
 
   const post = data?.data.postBy;
 
   const page = {
-    ...data?.data.generalSettings
-  }
+    ...data?.data.generalSettings,
+  };
 
   return {
     props: {
       post,
-      page
-    }
-  }
-}
+      page,
+    },
+  };
+};
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const apolloClient = getApolloClient();
@@ -105,16 +117,16 @@ export const getStaticPaths: GetStaticPaths = async () => {
     `,
   });
 
-  const posts = data?.data.posts.edges.map(({ node } : any) => node);
+  const posts = data?.data.posts.edges.map(({ node }: any) => node);
 
   return {
-    paths: posts.map(({ slug } : any) => {
+    paths: posts.map(({ slug }: any) => {
       return {
         params: {
-          postSlug: slug
-        }
-      }
+          postSlug: slug,
+        },
+      };
     }),
-    fallback: false
-  }
-}
+    fallback: false,
+  };
+};
