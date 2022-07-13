@@ -119,5 +119,6 @@ export const getStaticProps: GetStaticProps = async () => {
       page,
       posts,
     },
+    revalidate: 60, // In seconds
   };
 };

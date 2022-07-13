@@ -95,6 +95,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       post,
       page,
     },
+    revalidate: 60, // In seconds
   };
 };
 
@@ -127,6 +128,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
         },
       };
     }),
-    fallback: false,
+    fallback: "blocking",
   };
 };

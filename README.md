@@ -13,6 +13,7 @@ This repository is 🔋 battery packed with:
 - ⚛️ React 18
 - ✨ TypeScript
 - 💨 Tailwind CSS 3
+- ⏳  Incremental Static Regeneration (ISR)
 - 📈 Absolute Import and Path Alias — Import components using `@/` prefix
 
 
